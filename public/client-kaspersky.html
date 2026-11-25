@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axis DPO | Kaspersky XDR Logs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { fontFamily: { display: ['Plus Jakarta Sans', 'sans-serif'], sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] } } }
+        }
+    </script>
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+</head>
+<body class="bg-[#FAFAFA] dark:bg-[#090D16] text-slate-800 dark:text-slate-200 font-sans min-h-screen flex flex-col lg:flex-row antialiased">
+
+    <aside class="w-full lg:w-64 bg-white dark:bg-[#111827] border-b lg:border-b-0 lg:border-r border-slate-200/80 dark:border-slate-800 flex flex-col justify-between shrink-0">
+        <div>
+            <div class="h-16 px-5 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2.5">
+                <img src="assets/axis-logo.png" alt="Axis Solutions" class="w-32 h-auto object-contain">
+            </div>
+            <nav class="p-3 space-y-1">
+                <a href="client-overview.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-chart-pie w-4 text-center"></i> Executive Overview</a>
+                <a href="client-dp1.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-file-contract w-4 text-center"></i> 1. Form DP1 Licence</a>
+                <a href="client-dp2.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-id-badge w-4 text-center"></i> 2. Form DP2 DPO Notice</a>
+                <a href="client-kaspersky.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold bg-slate-900 dark:bg-slate-800 text-white"><i class="fa-solid fa-radar w-4 text-center"></i> 3. Kaspersky Logs</a>
+                <a href="client-report.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-file-shield w-4 text-center"></i> 4. CDPA Verdict & POTRAZ</a>
+            </nav>
+        </div>
+        <div class="p-3 border-t border-slate-100 dark:border-slate-800">
+            <a href="index.html" class="w-full py-2 px-3 rounded-lg bg-slate-900 dark:bg-slate-800 text-white text-xs font-medium flex items-center justify-center gap-2">Sign Out</a>
+        </div>
+    </aside>
+
+    <main class="flex-1 p-6 md:p-8 max-w-4xl w-full mx-auto space-y-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <span class="text-[11px] font-mono uppercase text-emerald-600">Technical Safeguards • SI 155 Sec. 18 & 20</span>
+                <h1 class="font-display text-2xl font-bold text-slate-900 dark:text-white mt-0.5">Kaspersky Next XDR Telemetry Ingestion</h1>
+            </div>
+            <button type="button" onclick="downloadSampleBreachLog()" class="text-xs font-mono text-rose-600 hover:underline">
+                <i class="fa-solid fa-download mr-1"></i>Download test.txt
+            </button>
+        </div>
+
+        <form onsubmit="scanKasperskyLog(event)" class="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 md:p-8 space-y-6">
+            <div>
+                <label class="block text-xs font-medium mb-2">Upload Kaspersky Log or Vulnerability Export (.TXT, .CSV, .JSON)</label>
+                <input type="file" id="kasp-file" accept=".txt,.csv,.json,.log" required class="w-full text-xs border border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-6 bg-slate-50/50 dark:bg-slate-900/40">
+            </div>
+
+            <div id="scan-output" class="hidden space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-mono font-semibold">Line-by-Line Telemetry Inspector</span>
+                    <span id="flag-count" class="text-xs font-mono px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-500">0 Flags</span>
+                </div>
+                <pre id="log-preview" class="bg-slate-950 text-slate-300 rounded-xl p-4 font-mono text-xs overflow-x-auto max-h-60 overflow-y-auto"></pre>
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                <span class="text-xs font-mono text-slate-400">Weight: 60% of CDPA Score</span>
+                <div class="flex gap-3">
+                    <button type="submit" class="px-5 py-2.5 bg-slate-900 dark:bg-emerald-600 text-white text-xs font-semibold rounded-xl">Scan Logs</button>
+                    <a href="client-report.html" class="px-4 py-2.5 border border-slate-200 dark:border-slate-700 text-xs font-semibold rounded-xl">View Verdict →</a>
+                </div>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        function downloadSampleBreachLog() {
+            const text = '2026-11-25 03:30:00 [CRITICAL] Kaspersky Next XDR Alert:\nunpatched server and ransomware detected on HOST-FIN-04.';
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(new Blob([text], { type: 'text/plain' }));
+            a.download = 'test.txt';
+            a.click();
+        }
+
+        function scanKasperskyLog(e) {
+            e.preventDefault();
+            const file = document.getElementById('kasp-file').files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = async (ev) => {
+                const raw = ev.target.result || '';
+                const lower = raw.toLowerCase();
+                const flags = [];
+                if (lower.includes('unpatched')) flags.push('Unpatched Endpoints');
+                if (lower.includes('malware') || lower.includes('trojan')) flags.push('Active Malware');
+                if (lower.includes('failed login') || lower.includes('brute force')) flags.push('Brute Force');
+                if (lower.includes('ransomware')) flags.push('Ransomware Signature');
+
+                document.getElementById('scan-output').classList.remove('hidden');
+                document.getElementById('flag-count').innerText = `${flags.length} Flag(s) Detected`;
+                document.getElementById('log-preview').textContent = raw;
+
+                try {
+                    const fd = new FormData();
+                    fd.append('org_id', 'comp-1');
+                    fd.append('file', file);
+                    const response = await fetch(`${window.AXIS_CONFIG.clientApiBase}/telemetry/kaspersky`, { method: 'POST', body: fd });
+                    if (!response.ok) { const error=await response.json().catch(()=>({})); throw new Error(error.detail||'Upload failed.'); }
+                } catch (error) { alert(error.message); return; }
+
+
+            };
+            reader.readAsText(file);
+        }
+    </script>
+<script>AxisAuth.guard("client");</script>
+</body>
+</html>

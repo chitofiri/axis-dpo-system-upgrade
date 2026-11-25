@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axis DPO | Executive Overview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { fontFamily: { display: ['Plus Jakarta Sans', 'sans-serif'], sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] } } }
+        }
+    </script>
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+</head>
+<body class="bg-[#FAFAFA] dark:bg-[#090D16] text-slate-800 dark:text-slate-200 font-sans min-h-screen flex flex-col lg:flex-row antialiased">
+
+    <!-- Shared Client Sidebar -->
+    <aside class="w-full lg:w-64 bg-white dark:bg-[#111827] border-b lg:border-b-0 lg:border-r border-slate-200/80 dark:border-slate-800 flex flex-col justify-between shrink-0">
+        <div>
+            <div class="h-16 px-5 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2.5">
+                <img src="assets/axis-logo.png" alt="Axis Solutions" class="w-32 h-auto object-contain">
+                <div>
+                    <span class="text-[10px] font-mono text-slate-400">VANGUARD HOLDINGS</span>
+                </div>
+            </div>
+            <nav class="p-3 space-y-1">
+                <a href="client-overview.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold bg-slate-900 dark:bg-slate-800 text-white"><i class="fa-solid fa-chart-pie w-4 text-center"></i> Executive Overview</a>
+                <a href="client-dp1.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-file-contract w-4 text-center"></i> 1. Form DP1 Licence</a>
+                <a href="client-dp2.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-id-badge w-4 text-center"></i> 2. Form DP2 DPO Notice</a>
+                <a href="client-kaspersky.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-radar w-4 text-center"></i> 3. Kaspersky Logs</a>
+                <a href="client-report.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-file-shield w-4 text-center"></i> 4. CDPA Verdict & POTRAZ</a>
+            </nav>
+        </div>
+        <div class="p-3 border-t border-slate-100 dark:border-slate-800">
+            <a href="index.html" onclick="AxisAuth.logout(); return false;" class="w-full py-2 px-3 rounded-lg bg-slate-900 dark:bg-slate-800 text-white text-xs font-medium flex items-center justify-center gap-2">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out Session
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6 md:p-8 max-w-5xl w-full mx-auto space-y-6">
+        
+        <!-- 3-Month Licence Expiry Alert Banner -->
+        <div id="expiry-banner" class="hidden p-4 rounded-2xl bg-amber-50 dark:bg-amber-500/10 border border-amber-300 dark:border-amber-500/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-start gap-3">
+                <i class="fa-solid fa-clock-rotate-left text-amber-600 mt-1"></i>
+                <div>
+                    <h3 id="expiry-title" class="text-xs font-bold text-amber-900 dark:text-amber-200 uppercase">POTRAZ Licence Renewal Alert (< 3 Months)</h3>
+                    <p id="expiry-desc" class="text-xs text-amber-800 dark:text-amber-300 mt-0.5"></p>
+                </div>
+            </div>
+            <a href="client-dp1.html" class="px-3.5 py-2 rounded-xl bg-amber-600 text-white text-xs font-semibold shrink-0">View Licence Record</a>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+                <h1 class="font-display text-2xl font-bold text-slate-900 dark:text-white">Compliance Posture Overview</h1>
+                <p class="text-xs text-slate-500 mt-1">Connected to Client Tenant API</p>
+            </div>
+            <a href="client-report.html" class="px-4 py-2.5 bg-slate-900 dark:bg-emerald-600 text-white text-xs font-semibold rounded-xl self-start sm:self-auto">
+                Open POTRAZ Report <i class="fa-solid fa-arrow-right ml-1"></i>
+            </a>
+        </div>
+
+        <!-- 4 KPI Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800 rounded-2xl p-5">
+                <span class="text-[10px] font-mono uppercase text-slate-400">CDPA SI 155 Score</span>
+                <div id="kpi-score" class="font-display text-2xl font-bold text-slate-900 dark:text-white mt-1">0%</div>
+                <p class="text-[11px] text-slate-500 mt-1">Composite Index</p>
+            </div>
+            <div class="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800 rounded-2xl p-5">
+                <span class="text-[10px] font-mono uppercase text-slate-400">DP1 Licence Validity</span>
+                <div id="kpi-licence" class="font-display text-lg font-bold text-slate-900 dark:text-white mt-1">Not Uploaded</div>
+                <p id="kpi-licence-sub" class="text-[11px] text-slate-500 mt-1">90-day renewal monitor</p>
+            </div>
+            <div class="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800 rounded-2xl p-5">
+                <span class="text-[10px] font-mono uppercase text-slate-400">Statutory Filings</span>
+                <div id="kpi-docs" class="font-display text-2xl font-bold text-slate-900 dark:text-white mt-1">0 / 3</div>
+                <p class="text-[11px] text-slate-500 mt-1">DP1, DP2 & Kaspersky</p>
+            </div>
+            <div class="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800 rounded-2xl p-5">
+                <span class="text-[10px] font-mono uppercase text-slate-400">Sec. 20 Breach Clock</span>
+                <div id="kpi-breach" class="font-display text-lg font-bold text-emerald-600 mt-1">No Active Breach</div>
+                <p class="text-[11px] text-slate-500 mt-1">72-hr POTRAZ window</p>
+            </div>
+        </div>
+
+        <!-- Step Directory -->
+        <div class="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800 rounded-2xl divide-y divide-slate-100 dark:divide-slate-800">
+            <div class="p-5 flex items-center justify-between">
+                <div>
+                    <h3 class="text-sm font-semibold text-slate-900 dark:text-white">01. POTRAZ Form DP1 — Data Controller Licence</h3>
+                    <p id="dir-dp1" class="text-xs text-slate-500 mt-0.5">Pending upload & expiry verification</p>
+                </div>
+                <a href="client-dp1.html" id="btn-dp1" class="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold">Open Page</a>
+            </div>
+            <div class="p-5 flex items-center justify-between">
+                <div>
+                    <h3 class="text-sm font-semibold text-slate-900 dark:text-white">02. POTRAZ Form DP2 — DPO Appointment Notice</h3>
+                    <p id="dir-dp2" class="text-xs text-slate-500 mt-0.5">Pending DPO appointment verification</p>
+                </div>
+                <a href="client-dp2.html" id="btn-dp2" class="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold">Open Page</a>
+            </div>
+            <div class="p-5 flex items-center justify-between">
+                <div>
+                    <h3 class="text-sm font-semibold text-slate-900 dark:text-white">03. Kaspersky Next XDR Telemetry & Vulnerability Logs</h3>
+                    <p id="dir-kasp" class="text-xs text-slate-500 mt-0.5">Pending log inspection</p>
+                </div>
+                <a href="client-kaspersky.html" class="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold">Upload Logs</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const API_BASE = window.AXIS_CONFIG.clientApiBase;
+
+        async function loadOverview() {
+            const dp1 = JSON.parse(localStorage.getItem('axis_dp1') || 'null');
+            const dp2 = JSON.parse(localStorage.getItem('axis_dp2') || 'null');
+            const kasp = JSON.parse(localStorage.getItem('axis_kasp') || 'null');
+
+            let score = (dp1 ? 20 : 0) + (dp2 ? 20 : 0);
+            let docs = (dp1 ? 1 : 0) + (dp2 ? 1 : 0) + (kasp ? 1 : 0);
+
+            if (kasp) {
+                let sec18 = 40;
+                let sec20 = 20;
+                if (kasp.flags.includes('Unpatched Endpoints')) sec18 -= 15;
+                if (kasp.flags.includes('Active Malware')) sec18 -= 20;
+                if (kasp.flags.includes('Brute Force')) sec18 -= 10;
+                if (kasp.flags.includes('Ransomware Signature')) { sec18 = 0; sec20 = 0; }
+                score += Math.max(0, sec18) + sec20;
+            }
+
+            document.getElementById('kpi-score').innerText = `${score}%`;
+            document.getElementById('kpi-docs').innerText = `${docs} / 3`;
+
+            if (dp1) {
+                document.getElementById('dir-dp1').innerText = `Verified Record (${dp1.regNumber}) • Expires ${dp1.expiryDate}`;
+                document.getElementById('btn-dp1').innerText = 'View Record';
+                document.getElementById('kpi-licence').innerText = `${dp1.daysRemaining} Days Left`;
+                document.getElementById('kpi-licence-sub').innerText = `Expires ${dp1.expiryDate}`;
+                if (dp1.daysRemaining <= 90) {
+                    document.getElementById('kpi-licence').className = 'font-display text-lg font-bold text-amber-600 mt-1';
+                    document.getElementById('expiry-banner').classList.remove('hidden');
+                    document.getElementById('expiry-desc').innerText = `Form DP1 (${dp1.regNumber}) expires on ${dp1.expiryDate} (${dp1.daysRemaining} days remaining — inside the 3-month renewal threshold).`;
+                }
+            }
+
+            if (dp2) {
+                document.getElementById('dir-dp2').innerText = `Verified Record — Appointed DPO: ${dp2.dpoName}`;
+                document.getElementById('btn-dp2').innerText = 'View Record';
+            }
+
+            if (kasp) {
+                document.getElementById('dir-kasp').innerText = `Scanned ${kasp.filename} — ${kasp.flags.length} flag(s)`;
+                if (kasp.flags.includes('Ransomware Signature')) {
+                    document.getElementById('kpi-breach').innerText = 'ACTIVE BREACH (DP3)';
+                    document.getElementById('kpi-breach').className = 'font-display text-lg font-bold text-rose-600 mt-1';
+                }
+            }
+        }
+        loadOverview();
+    </script>
+<script>
+async function loadOverview() {
+  try {
+    const data = await AxisAuth.request('/client/records');
+    document.querySelectorAll('[data-axis-company]').forEach(el => el.textContent=data.company.name);
+    const dp1=data.dp1, dp2=data.dp2, kasp=data.kaspersky;
+    const score=(dp1.verified?20:0)+(dp2.verified?20:0)+(kasp.filename?60:0);
+    const docs=[dp1.verified,dp2.verified,!!kasp.filename].filter(Boolean).length;
+    document.getElementById('kpi-score').innerText=`${score}%`;
+    document.getElementById('kpi-docs').innerText=`${docs} / 3`;
+    if(dp1.verified){
+      document.getElementById('dir-dp1').innerText=`Verified Record (${dp1.reg_number||'Licence'}) • Expires ${dp1.expiry_date}`;
+      document.getElementById('btn-dp1').innerText='View Record';
+      document.getElementById('kpi-licence').innerText=dp1.days_remaining===null?'On file':`${dp1.days_remaining} Days Left`;
+      document.getElementById('kpi-licence-sub').innerText=`Expires ${dp1.expiry_date}`;
+      if(dp1.days_remaining!==null && dp1.days_remaining<=90){
+        document.getElementById('kpi-licence').className='font-display text-lg font-bold text-amber-600 mt-1';
+        document.getElementById('expiry-banner').classList.remove('hidden');
+        document.getElementById('expiry-desc').innerText=`Licence expires ${dp1.expiry_date} (${dp1.days_remaining} days remaining).`;
+      }
+    }
+    if(dp2.verified){document.getElementById('dir-dp2').innerText=`Verified Record — Appointed DPO: ${dp2.dpo_name||data.dpo.name}`;document.getElementById('btn-dp2').innerText='View Record';}
+    if(kasp.filename){document.getElementById('dir-kasp').innerText=`Scanned ${kasp.filename} — ${kasp.flags.length} finding(s)`;if(kasp.flags.includes('Ransomware Signature')){document.getElementById('kpi-breach').innerText='CRITICAL SECURITY ALERT';document.getElementById('kpi-breach').className='font-display text-lg font-bold text-rose-600 mt-1';}}
+  } catch(e){console.error(e);}
+}
+AxisAuth.guard('client'); loadOverview();
+</script>
+</body>
+</html>

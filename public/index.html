@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Axis DPO | Secure Compliance Workspace</title><script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<script src="config.js"></script><script src="auth.js" defer></script>
+</head><body class="min-h-screen bg-slate-950 text-slate-100 font-['Inter']">
+<div class="min-h-screen grid lg:grid-cols-2">
+<section class="hidden lg:flex flex-col justify-between p-12 bg-gradient-to-br from-slate-950 via-slate-900 to-red-950/50 border-r border-white/10">
+<div><img src="assets/axis-logo.png" class="w-72 max-w-full object-contain" alt="Axis Solutions">
+<p class="mt-8 text-xs tracking-[.3em] uppercase text-red-400 font-semibold">Data protection • Governance • Assurance</p>
+<h1 class="mt-5 text-4xl font-bold leading-tight font-['Plus_Jakarta_Sans']">One secure workspace.<br>Every client protected.</h1>
+<p class="mt-5 max-w-md text-slate-400 leading-7">A dedicated compliance workspace for each organisation, with controlled access to regulatory records and security telemetry.</p></div>
+<div class="text-xs text-slate-500">AXIS SOLUTIONS (PVT) LTD · ZIMBABWE</div></section>
+<section class="flex items-center justify-center p-6 sm:p-10">
+<div class="w-full max-w-md">
+<div class="lg:hidden mb-10"><img src="assets/axis-logo.png" class="w-56" alt="Axis Solutions"></div>
+<div class="mb-8"><p class="text-red-400 text-xs font-bold tracking-[.2em] uppercase">Secure portal</p><h2 class="mt-3 text-3xl font-bold font-['Plus_Jakarta_Sans']">Welcome back</h2><p class="mt-2 text-slate-400 text-sm">Sign in to your organisation's compliance workspace.</p></div>
+<form id="login-form" class="space-y-5">
+<label class="block"><span class="text-sm text-slate-300">Work email</span><input id="email" type="email" required autocomplete="username" class="mt-2 w-full rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 outline-none focus:border-red-500"></label>
+<label class="block"><span class="text-sm text-slate-300">Password</span><input id="password" type="password" required autocomplete="current-password" class="mt-2 w-full rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 outline-none focus:border-red-500"></label>
+<div id="error" class="hidden rounded-lg bg-red-950/70 border border-red-900 p-3 text-sm text-red-200"></div>
+<button id="submit" class="w-full rounded-xl bg-red-700 hover:bg-red-600 py-3.5 font-semibold transition">Sign in securely</button>
+</form>
+<p class="mt-7 text-xs leading-6 text-slate-500">Access is provisioned by Axis Solutions. If you are a company DPO and have not received your login details, contact your Axis account administrator.</p>
+</div></section></div>
+<script>
+document.getElementById('login-form').addEventListener('submit', async e=>{
+ e.preventDefault(); const btn=document.getElementById('submit'), err=document.getElementById('error');
+ btn.disabled=true;btn.textContent='Authenticating…';err.classList.add('hidden');
+ try { const data=await AxisAuth.request('/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:document.getElementById('email').value,password:document.getElementById('password').value})});
+ AxisAuth.save(data);location.href=data.user.role==='admin'?'admin-dashboard.html':'client-overview.html';
+ } catch(ex){err.textContent=ex.message;err.classList.remove('hidden');}
+ finally{btn.disabled=false;btn.textContent='Sign in securely';}
+});
+</script></body></html>

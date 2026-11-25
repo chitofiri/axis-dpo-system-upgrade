@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axis DPO | Form DP2 Appointment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { fontFamily: { display: ['Plus Jakarta Sans', 'sans-serif'], sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] } } }
+        }
+    </script>
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+</head>
+<body class="bg-[#FAFAFA] dark:bg-[#090D16] text-slate-800 dark:text-slate-200 font-sans min-h-screen flex flex-col lg:flex-row antialiased">
+
+    <aside class="w-full lg:w-64 bg-white dark:bg-[#111827] border-b lg:border-b-0 lg:border-r border-slate-200/80 dark:border-slate-800 flex flex-col justify-between shrink-0">
+        <div>
+            <div class="h-16 px-5 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2.5">
+                <img src="assets/axis-logo.png" alt="Axis Solutions" class="w-32 h-auto object-contain">
+            </div>
+            <nav class="p-3 space-y-1">
+                <a href="client-overview.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-chart-pie w-4 text-center"></i> Executive Overview</a>
+                <a href="client-dp1.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-file-contract w-4 text-center"></i> 1. Form DP1 Licence</a>
+                <a href="client-dp2.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold bg-slate-900 dark:bg-slate-800 text-white"><i class="fa-solid fa-id-badge w-4 text-center"></i> 2. Form DP2 DPO Notice</a>
+                <a href="client-kaspersky.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-radar w-4 text-center"></i> 3. Kaspersky Logs</a>
+                <a href="client-report.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-file-shield w-4 text-center"></i> 4. CDPA Verdict & POTRAZ</a>
+            </nav>
+        </div>
+        <div class="p-3 border-t border-slate-100 dark:border-slate-800">
+            <a href="index.html" class="w-full py-2 px-3 rounded-lg bg-slate-900 dark:bg-slate-800 text-white text-xs font-medium flex items-center justify-center gap-2">Sign Out</a>
+        </div>
+    </aside>
+
+    <main class="flex-1 p-6 md:p-8 max-w-4xl w-full mx-auto space-y-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <span class="text-[11px] font-mono uppercase text-indigo-600">Statutory Governance • SI 155 Section 24</span>
+                <h1 class="font-display text-2xl font-bold text-slate-900 dark:text-white mt-0.5">Form DP2: DPO Appointment Notice</h1>
+            </div>
+            <a href="client-overview.html" class="text-xs text-slate-500 hover:text-slate-900">← Overview</a>
+        </div>
+
+        <!-- NEUTRAL VERIFIED VAULT CARD -->
+        <div id="dp2-neutral-card" class="hidden bg-white dark:bg-[#111827] border border-slate-200/90 dark:border-slate-800 rounded-2xl p-6 md:p-8 space-y-6">
+            <div class="flex items-center justify-between pb-5 border-b border-slate-100 dark:border-slate-800">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h2 class="font-display text-base font-bold text-slate-900 dark:text-white">Appointed DPO Governance Record</h2>
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-semibold">VERIFIED ON FILE</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-0.5">Upload form is collapsed because Form DP2 is verified on file.</p>
+                </div>
+                <button type="button" onclick="toggleDp2Form(true)" class="px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold">Update DPO Notice</button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900">
+                    <span class="text-[10px] font-mono uppercase text-slate-400 block">Appointed DPO</span>
+                    <span id="rec-dpo-name" class="font-semibold mt-1 block">—</span>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900">
+                    <span class="text-[10px] font-mono uppercase text-slate-400 block">Official Email</span>
+                    <span id="rec-dpo-email" class="font-mono mt-1 block">—</span>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                <span class="text-xs font-mono text-emerald-600"><i class="fa-solid fa-lock mr-1"></i> Statutory Record Locked</span>
+                <a href="client-kaspersky.html" class="px-4 py-2.5 bg-slate-900 dark:bg-emerald-600 text-white text-xs font-semibold rounded-xl">Proceed to Kaspersky Logs →</a>
+            </div>
+        </div>
+
+        <!-- UPLOAD FORM -->
+        <form id="dp2-upload-form" onsubmit="submitDp2(event)" class="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 md:p-8 space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-medium mb-1.5">Appointed DPO Full Name</label>
+                    <input type="text" id="dpo-name" required value="Tendai Moyo" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium mb-1.5">DPO Official Contact Email</label>
+                    <input type="email" id="dpo-email" required value="dpo@vanguard-zim.co.zw" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-medium mb-2">Attach Executed Form DP2 Notice (.PDF or .DOCX)</label>
+                <input type="file" id="dp2-file" accept=".pdf,.doc,.docx" required class="w-full text-xs border border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-6 bg-slate-50/50 dark:bg-slate-900/40">
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-end">
+                <button type="submit" class="px-5 py-2.5 bg-slate-900 dark:bg-emerald-600 text-white text-xs font-semibold rounded-xl">Verify DPO Notice & Save Record</button>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        function toggleDp2Form(show) {
+            document.getElementById('dp2-upload-form').classList.toggle('hidden', !show);
+            document.getElementById('dp2-neutral-card').classList.toggle('hidden', show);
+        }
+
+        function renderDp2Record(record) {
+            document.getElementById('rec-dpo-name').innerText = record.dpoName;
+            document.getElementById('rec-dpo-email').innerText = record.dpoEmail;
+            toggleDp2Form(false);
+        }
+
+        async function submitDp2(e) {
+            e.preventDefault();
+            const file = document.getElementById('dp2-file').files[0];
+            if (!file) return;
+
+            const record = {
+                dpoName: document.getElementById('dpo-name').value,
+                dpoEmail: document.getElementById('dpo-email').value,
+                filename: file.name
+            };
+
+            try {
+                const fd = new FormData();
+                fd.append('org_id', 'comp-1');
+                fd.append('dpo_name', record.dpoName);
+                fd.append('dpo_email', record.dpoEmail);
+                fd.append('file', file);
+                const response = await fetch(`${window.AXIS_CONFIG.clientApiBase}/documents/dp2`, { method: 'POST', body: fd });
+                if (!response.ok) { const error = await response.json().catch(()=>({})); throw new Error(error.detail || 'Upload failed.'); }
+                renderDp2Record(record);
+            } catch (error) { alert(error.message); }
+        }
+
+        async function loadExistingDp2() {
+            try { const data=await AxisAuth.request('/client/records'); if(data.dp2.verified) renderDp2Record({dpoName:data.dp2.dpo_name||data.dpo.name,dpoEmail:data.dpo.email}); }
+            catch(error){console.error(error);}
+        }
+        loadExistingDp2();
+    </script>
+<script>AxisAuth.guard("client");</script>
+</body>
+</html>

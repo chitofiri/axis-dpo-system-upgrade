@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axis DPO | Form DP1 Licence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { fontFamily: { display: ['Plus Jakarta Sans', 'sans-serif'], sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] } } }
+        }
+    </script>
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+</head>
+<body class="bg-[#FAFAFA] dark:bg-[#090D16] text-slate-800 dark:text-slate-200 font-sans min-h-screen flex flex-col lg:flex-row antialiased">
+
+    <aside class="w-full lg:w-64 bg-white dark:bg-[#111827] border-b lg:border-b-0 lg:border-r border-slate-200/80 dark:border-slate-800 flex flex-col justify-between shrink-0">
+        <div>
+            <div class="h-16 px-5 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2.5">
+                <img src="assets/axis-logo.png" alt="Axis Solutions" class="w-32 h-auto object-contain">
+            </div>
+            <nav class="p-3 space-y-1">
+                <a href="client-overview.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-chart-pie w-4 text-center"></i> Executive Overview</a>
+                <a href="client-dp1.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold bg-slate-900 dark:bg-slate-800 text-white"><i class="fa-solid fa-file-contract w-4 text-center"></i> 1. Form DP1 Licence</a>
+                <a href="client-dp2.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-id-badge w-4 text-center"></i> 2. Form DP2 DPO Notice</a>
+                <a href="client-kaspersky.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-radar w-4 text-center"></i> 3. Kaspersky Logs</a>
+                <a href="client-report.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-file-shield w-4 text-center"></i> 4. CDPA Verdict & POTRAZ</a>
+            </nav>
+        </div>
+        <div class="p-3 border-t border-slate-100 dark:border-slate-800">
+            <a href="index.html" class="w-full py-2 px-3 rounded-lg bg-slate-900 dark:bg-slate-800 text-white text-xs font-medium flex items-center justify-center gap-2">Sign Out</a>
+        </div>
+    </aside>
+
+    <main class="flex-1 p-6 md:p-8 max-w-4xl w-full mx-auto space-y-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <span class="text-[11px] font-mono uppercase text-indigo-600">Statutory Filing • SI 155 First Schedule</span>
+                <h1 class="font-display text-2xl font-bold text-slate-900 dark:text-white mt-0.5">Form DP1: Data Controller Licence</h1>
+            </div>
+            <a href="client-overview.html" class="text-xs text-slate-500 hover:text-slate-900">← Overview</a>
+        </div>
+
+        <!-- NEUTRAL VERIFIED VAULT CARD (Shown once DP1 is verified, hiding upload dropzone) -->
+        <div id="neutral-card" class="hidden bg-white dark:bg-[#111827] border border-slate-200/90 dark:border-slate-800 rounded-2xl p-6 md:p-8 space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-100 dark:border-slate-800">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h2 class="font-display text-base font-bold text-slate-900 dark:text-white">Verified Data Controller Record</h2>
+                        <span id="rec-badge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-semibold">ACTIVE LICENCE</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-0.5">Upload form is collapsed because Form DP1 is verified on file.</p>
+                </div>
+                <button type="button" onclick="showUploadForm(true)" class="px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold">
+                    <i class="fa-solid fa-rotate mr-1"></i> Renew / Replace File
+                </button>
+            </div>
+
+            <div id="rec-expiry-warning" class="hidden p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900">
+                <strong>Renewal Alert (< 3 Months Remaining):</strong> Your POTRAZ licence is within 90 days of expiring. Both your DPO and Axis Admin SOC have been notified.
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900">
+                    <span class="text-[10px] font-mono uppercase text-slate-400 block">Controller Entity</span>
+                    <span id="rec-entity" class="font-semibold mt-1 block">—</span>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900">
+                    <span class="text-[10px] font-mono uppercase text-slate-400 block">Licence Reference</span>
+                    <span id="rec-reg" class="font-mono font-semibold mt-1 block">—</span>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900">
+                    <span class="text-[10px] font-mono uppercase text-slate-400 block">Expiry & Countdown</span>
+                    <span id="rec-exp" class="font-mono font-semibold mt-1 block">—</span>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                <span class="text-xs font-mono text-emerald-600"><i class="fa-solid fa-lock mr-1"></i> Statutory Record Locked</span>
+                <a href="client-dp2.html" class="px-4 py-2.5 bg-slate-900 dark:bg-emerald-600 text-white text-xs font-semibold rounded-xl">Proceed to Form DP2 →</a>
+            </div>
+        </div>
+
+        <!-- UPLOAD FORM (Hidden automatically after verification) -->
+        <form id="upload-form" onsubmit="submitDp1(event)" class="bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 md:p-8 space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-medium mb-1.5">Registered Data Controller Name</label>
+                    <input type="text" id="entity-name" required value="Vanguard Holdings (Pvt) Ltd" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium mb-1.5">POTRAZ Licence Reference No.</label>
+                    <input type="text" id="reg-number" required value="ZW-DC-2026-084" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-mono">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium mb-1.5">Licence Issue Date</label>
+                    <input type="date" id="issue-date" required value="2026-01-15" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-mono">
+                </div>
+                <div>
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label class="text-xs font-medium">Licence Expiry Date</label>
+                        <button type="button" onclick="setDemoExpiringDate()" class="text-[10px] font-mono text-amber-600 hover:underline">Set < 3 Mo. Demo Date</button>
+                    </div>
+                    <input type="date" id="expiry-date" required value="2027-01-15" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-mono">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-medium mb-2">Attach Signed Form DP1 Certificate (.PDF or .DOCX)</label>
+                <input type="file" id="dp1-file" accept=".pdf,.doc,.docx" required class="w-full text-xs border border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-6 bg-slate-50/50 dark:bg-slate-900/40">
+            </div>
+
+            <div id="status-msg" class="text-xs font-mono text-rose-600"></div>
+
+            <div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                <span class="text-xs font-mono text-slate-400">Triggers notification at ≤ 90 days to expiry</span>
+                <button type="submit" class="px-5 py-2.5 bg-slate-900 dark:bg-emerald-600 text-white text-xs font-semibold rounded-xl">Verify Licence & Save Record</button>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        function setDemoExpiringDate() {
+            const d = new Date();
+            d.setDate(d.getDate() + 45);
+            document.getElementById('expiry-date').value = d.toISOString().split('T')[0];
+        }
+
+        function showUploadForm(show) {
+            document.getElementById('upload-form').classList.toggle('hidden', !show);
+            document.getElementById('neutral-card').classList.toggle('hidden', show);
+        }
+
+        function renderDp1Record(record) {
+            document.getElementById('rec-entity').innerText = record.entityName;
+            document.getElementById('rec-reg').innerText = record.regNumber;
+            document.getElementById('rec-exp').innerText = `${record.expiryDate} (${record.daysRemaining} days left)`;
+
+            const badge = document.getElementById('rec-badge');
+            const warn = document.getElementById('rec-expiry-warning');
+            if (record.daysRemaining <= 90) {
+                badge.className = 'text-[10px] font-mono px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-semibold';
+                badge.innerText = `EXPIRING IN ${record.daysRemaining} DAYS`;
+                warn.classList.remove('hidden');
+            } else {
+                badge.className = 'text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-semibold';
+                badge.innerText = 'ACTIVE LICENCE';
+                warn.classList.add('hidden');
+            }
+            showUploadForm(false);
+        }
+
+        async function submitDp1(e) {
+            e.preventDefault();
+            const fileInput = document.getElementById('dp1-file');
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            const expiryDate = document.getElementById('expiry-date').value;
+            const today = new Date(); today.setHours(0, 0, 0, 0);
+            const daysRemaining = Math.round((new Date(expiryDate + 'T00:00:00') - today) / (1000 * 60 * 60 * 24));
+
+            if (daysRemaining < 0) {
+                document.getElementById('status-msg').innerText = `ERROR: POTRAZ licence expired on ${expiryDate}.`;
+                return;
+            }
+
+            const record = {
+                entityName: (AxisAuth.user() && AxisAuth.user().company_name) || document.getElementById('entity-name').value,
+                regNumber: document.getElementById('reg-number').value,
+                issueDate: document.getElementById('issue-date').value,
+                expiryDate,
+                daysRemaining,
+                filename: file.name
+            };
+
+            // Send to Client Tenant FastAPI Backend (:8000) if running
+            try {
+                const fd = new FormData();
+                fd.append('org_id', 'comp-1');
+                fd.append('org_name', record.entityName);
+                fd.append('reg_number', record.regNumber);
+                fd.append('issue_date', record.issueDate);
+                fd.append('expiry_date', record.expiryDate);
+                fd.append('file', file);
+                const response = await fetch(`${window.AXIS_CONFIG.clientApiBase}/documents/dp1`, { method: 'POST', body: fd });
+                if (!response.ok) { const error = await response.json().catch(()=>({})); throw new Error(error.detail || 'Upload failed.'); }
+                document.getElementById('status-msg').innerText = 'Document securely recorded for your company.';
+                renderDp1Record(record);
+            } catch (error) {
+                document.getElementById('status-msg').innerText = error.message;
+            }
+        }
+
+        async function loadExistingDp1() {
+            try {
+                const data = await AxisAuth.request('/client/records');
+                if (data.dp1.verified) renderDp1Record({
+                    entityName:data.company.name, regNumber:data.dp1.reg_number,
+                    expiryDate:data.dp1.expiry_date, daysRemaining:data.dp1.days_remaining
+                });
+            } catch (error) { console.error(error); }
+        }
+        const entityField=document.getElementById('entity-name'); if(entityField && AxisAuth.user() && AxisAuth.user().company_name){entityField.value=AxisAuth.user().company_name;entityField.readOnly=true;}
+        loadExistingDp1();
+    </script>
+<script>AxisAuth.guard("client");</script>
+</body>
+</html>

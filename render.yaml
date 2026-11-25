@@ -1,0 +1,33 @@
+databases:
+  - name: axis-dpo-postgres
+    plan: basic-1gb
+    databaseName: axis_dpo
+    user: axis_dpo_user
+
+services:
+  - type: web
+    name: axis-dpo-api
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn api:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: axis-dpo-postgres
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: AXIS_ADMIN_EMAIL
+        sync: false
+      - key: AXIS_ADMIN_PASSWORD
+        sync: false
+      - key: FRONTEND_ORIGINS
+        sync: false
+
+  - type: web
+    name: axis-dpo-frontend
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: ./public
